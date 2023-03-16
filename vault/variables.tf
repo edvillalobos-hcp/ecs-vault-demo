@@ -2,11 +2,15 @@ data "terraform_remote_state" "vault-agent-ecs-infra" {
   backend = "remote"
 
   config = {
-    organization = "Demo-Org-EV"
+    organization = var.TFC_ORGANIZATION
     workspaces = {
       name = "vault-agent-ecs-infra"
     }
   }
+}
+
+variable "TFC_ORGANIZATION" {
+  description = "Terraform cloud organization name"
 }
 
 variable "name" {
@@ -31,34 +35,11 @@ variable "region" {
   }
 }
 
-
-# variable "product_database_hostname" {
-#   type        = string
-#   description = "Amazon RDS database hostname"
-# }
-
 variable "product_database_port" {
   type        = number
   description = "Amazon RDS database port"
   default     = 5432
 }
-
-# variable "product_database_username" {
-#   type        = string
-#   description = "Amazon RDS database username"
-# }
-
-
-# variable "product_database_password" {
-#   type        = string
-#   description = "Amazon RDS database password"
-#   sensitive   = true
-# }
-
-# variable "product_api_efs_access_point_arn" {
-#   type        = string
-#   description = "ARN for EFS Access Point of product-api"
-# }
 
 variable "hcp_vault_cluster_id" {
   type        = string

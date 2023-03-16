@@ -2,7 +2,7 @@ data "terraform_remote_state" "vault-agent-ecs-infra" {
   backend = "remote"
 
   config = {
-    organization = "Demo-Org-EV"
+    organization = var.TFC_ORGANIZATION
     workspaces = {
       name = "vault-agent-ecs-infra"
     }
@@ -13,12 +13,17 @@ data "terraform_remote_state" "vault-agent-ecs-vault" {
   backend = "remote"
 
   config = {
-    organization = "Demo-Org-EV"
+    organization = var.TFC_ORGANIZATION
     workspaces = {
       name = "vault-agent-ecs-vault"
     }
   }
 }
+
+variable "TFC_ORGANIZATION" {
+  description = "Terraform cloud organization name"
+}
+
 
 variable "name" {
   type        = string

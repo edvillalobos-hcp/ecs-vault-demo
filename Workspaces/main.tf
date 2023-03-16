@@ -33,6 +33,15 @@ resource "tfe_variable" "aws-access" {
   description     = "HCP Client Secret"
   variable_set_id = tfe_variable_set.vault-ecs-demo-varset.id
 }
+
+resource "tfe_variable" "tfc-org" {
+  key             = "TFC_ORGANIZATION"
+  value           = ""
+  category        = "terraform"
+  description     = "terraform organization"
+  variable_set_id = tfe_variable_set.vault-ecs-demo-varset.id
+}
+
 //infrastructure Workspace
 resource "tfe_workspace" "vault-agent-ecs-infra" {
   name                  = "vault-agent-ecs-infra"
@@ -41,9 +50,9 @@ resource "tfe_workspace" "vault-agent-ecs-infra" {
   queue_all_runs        = true
   file_triggers_enabled = true
   project_id            = tfe_project.vault-ecs-demo-proj.id
-  working_directory     = "ecs-vault-demo/infrastructure"
+  working_directory     = "infrastructure"
   vcs_repo {
-    identifier     = "edvillalobos-hcp/ecs-vault-demos"
+    identifier     = "${var.github-user}/ecs-vault-demos"
     branch         = "master"
     oauth_token_id = tfe_oauth_client.github-oauth-client.oauth_token_id
   }
@@ -63,9 +72,9 @@ resource "tfe_workspace" "vault-agent-ecs-vault" {
   queue_all_runs        = true
   file_triggers_enabled = true
   project_id            = tfe_project.vault-ecs-demo-proj.id
-  working_directory     = "ecs-vault-demo/vault"
+  working_directory     = "vault"
   vcs_repo {
-    identifier     = "edvillalobos-hcp/ecs-vault-demo"
+    identifier     = "${var.github-user}/ecs-vault-demos"
     branch         = "master"
     oauth_token_id = tfe_oauth_client.github-oauth-client.oauth_token_id
   }
@@ -85,9 +94,9 @@ resource "tfe_workspace" "vault-agent-ecs-app" {
   queue_all_runs        = true
   file_triggers_enabled = true
   project_id            = tfe_project.vault-ecs-demo-proj.id
-  working_directory     = "ecs-vault-demo/application"
+  working_directory     = "application"
   vcs_repo {
-    identifier     = "edvillalobos-hcp/ecs-vault-demo"
+    identifier     = "${var.github-user}/ecs-vault-demos"
     branch         = "master"
     oauth_token_id = tfe_oauth_client.github-oauth-client.oauth_token_id
   }
